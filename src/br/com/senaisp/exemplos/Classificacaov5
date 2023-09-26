@@ -1,0 +1,49 @@
+package br.com.senaisp.erley.desafio.versao5;
+
+import java.util.Scanner;
+
+public class Classificacaov5 {
+
+	public static void main(String[] args) {
+		
+		// definindo vetor para 6 numeros inteiros
+		int[] vetor = new int[6];
+		
+		Scanner sc = new Scanner(System.in);
+				
+		int auxilaTroca;
+		
+		for (int i=0; i < vetor.length; i++) {
+			System.out.println("Entre com um número inteiro:");
+			vetor[i] = sc.nextInt();
+		}
+		
+		// fechando o Scanner, para este chato parar de reclamar
+		sc.close();
+		
+		System.out.println("Vetor desorganizado");
+		
+		for(int vet : vetor) {
+			System.out.println( vet );
+		}
+		
+		System.out.println("Iniciando a classificação");
+		
+		for(int i = 0; i < vetor.length; i++) {
+			for(int k = 0; k < vetor.length-1; k++) {
+				if(vetor[k] > vetor[ k + 1]) {
+					auxilaTroca = vetor[k];
+					vetor[k] = vetor[k+1];
+					vetor[k+1] = auxilaTroca;
+				}
+			}
+		}
+		
+		System.out.println("Vetor classificado pelo método Bobble Sort");
+
+		for(int vet : vetor) {
+			System.out.println( vet );
+		}
+
+	}
+}
