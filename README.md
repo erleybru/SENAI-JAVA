@@ -16,11 +16,11 @@ Repositório para códigos do curso Java
 ## Caractares de Escape
 Código de Escape  | O que faz
 :---------------: | :----------
-\t  | tabulação
-\b | backspace (um retrocesso no texto ou exclusão de um único caractere)
-\n | nova linha
-\r | retorno de carro
-\f | feed de formulário
-\' | aspas simples
-\" | aspas duplas
-\\ | barra invertida
+\\t  | tabulação
+\\b | backspace (um retrocesso no texto ou exclusão de um único caractere)
+\\n | nova linha
+\\r | retorno de carro
+\\f | feed de formulário
+\\' | aspas simples
+\\" | aspas duplas
+\\\ | barra invertida
