@@ -10,6 +10,13 @@ public class CalculaDvCpf {
 		// Pega o CPF numa string/literal
 		String numeroCPF = teclado.next();
 		
+		// chega se tem 11 digitos
+		if(numeroCPF.length() != 11) {
+			System.out.println("CPF deve ser digitado com 11 digitos");
+			System.out.println("Programa encerrado!");
+			// Encerra o programa aqui
+			System.exit(0);
+		}
 		char digito10, digito11;
 		// calcular o primeiro digito verificador do CPF
 		int peso = 10; // usada para multiplicar cada digito do CPF
