@@ -27,8 +27,11 @@ public class CalculaDvCpf {
 		int digito1; // guardar o 
 		int digito2;
 		for(int i = 0; i < 9; i++) {
-			digito = numeroCPF.charAt(i); // pega o digito do CPF
-			//Talvez seja necessario fazer casting (int)(numeroCPF.charAt(i) - 48);
+			// pegar o digito do CPF
+			// necessario fazer casting porque na conversao 
+			// para inteiro vem o codigo ASCII do digito e nao
+			// o seu valor
+			digito = (int)(numeroCPF.charAt(i) - 48);
 			soma += digito * peso;
 			peso--;
 		} // final do for
@@ -46,7 +49,7 @@ public class CalculaDvCpf {
 		soma = 0;
 		peso = 11;
 		for(int i = 0; i < 9; i++) {
-			digito = numeroCPF.charAt(i); // pega o digito do CPF
+			digito = (int)(numeroCPF.charAt(i) - 48);
 			soma += digito * peso;
 			peso--;
 		} // final do for
