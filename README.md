@@ -21,6 +21,6 @@ Código de Escape  | O que faz
 \\n | nova linha
 \\r | retorno de carro
 \\f | feed de formulário
-\\' | aspas simples
-\\" | aspas duplas
-\\\ | barra invertida
+\\\' | aspas simples
+\\\" | aspas duplas
+\\\\ | barra invertida
