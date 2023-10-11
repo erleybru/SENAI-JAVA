@@ -10,8 +10,8 @@ import java.awt.event.ActionListener;
 
 public class JogoVelha extends JFrame {
 	// criando constantes que serão usadas no jogo
-	private static final char JOGADOR_O = 'O';
-	private static final char JOGADOR_X = 'X';
+	private static final String JOGADOR_O = "O";
+	private static final String JOGADOR_X = "X";
 
 	// criando os campos (ou propriedadas) desta classe
 	// Encapsulamento (uso do private)
@@ -33,7 +33,7 @@ public class JogoVelha extends JFrame {
 	public JogoVelha() {
 		setTitle("Jogo da Velha GUI - Usando Swing");
 		setDefaultCloseOperation(3);
-		setSize(450, 500);
+		setSize(420, 500);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		// desligar o layout padrao
@@ -167,111 +167,112 @@ public class JogoVelha extends JFrame {
 	}
 
 	public String getTurno() {
-		return turno == 0 ? "Jogador O" : "Jogador X";
+		return turno == 0 ? "Jogador " + JOGADOR_O : "Jogador " + JOGADOR_X;
 	}
 
 	public int quantasJogadasFatam() {
 		int quantidade = 0;
-		for(int i=0; i < click.length; i++) {
-			if (click[i] == false) {
-				quantidade++;
-			}
-		}
+
+		// Cadê as chaves do comando for?
+		for (int i = 0; i < click.length; i++)
+			if (click[i] == false)
+				quantidade++; // Veja que para um unico comando NÃO PRECISA de chaves no IF
+
 		return quantidade;
 	}
 
 	// seleciona o outro jogador
 	public void registrarJogada(JButton btn) {
 		if (turno == 0) {
-			btn.setText(JOGADOR_O + ""); // Porque eu usei '+ ""' ?
+			btn.setText(JOGADOR_O);
 		} else {
-			btn.setText(JOGADOR_X + ""); // Mesma pergunta
+			btn.setText(JOGADOR_X);
 		}
 		// verifica se alguem ganhou
-		if(checarVitoria()) {
-			String msg = "Ganhador " + getTurno();
-			JOptionPane.showMessageDialog(null, msg, "Resultado", JOptionPane.OK_OPTION);
-			// terminar
-			System.exit(0);
-		}
-		// verifica se ainda tem jogadas
-		if (quantasJogadasFatam() == 0) {
-			// termina partida
-			terminado = true;
-			empate = true;
-			// exibe mensagem de empate e termina o jogo
-			String msg = "EMPATOU!!!! ";
-			JOptionPane.showMessageDialog(null, msg, "Resultado", JOptionPane.OK_OPTION);
-			// terminar
-			System.exit(0);
-		}
-		// trocar o jogador
-		turno = ((turno + 1) % 2);
+		// Jogador O
+		terminado = checarVitoria(JOGADOR_O);
+		// Jogador X
+		if(!terminado)terminado = checarVitoria(JOGADOR_X);
 		
+		// ninguem ganhou, então verifique se deu empate
+		if (!terminado) {
+			// verifica se ainda tem jogadas
+			if (quantasJogadasFatam() == 0) {
+				// termina partida
+				terminado = true;
+				empate = true;
+			}
+		}
+		// O jogo acabou. Pode ser por empate,ou alguem ganho
+		if (terminado) {
+			String msg="";
+			if(isEmpate()) {
+				// exibe mensagem de empate
+				msg = "EMPATOU!!!! ";
+			} else {
+				msg = "Ganhador " + getTurno();
+			}
+			JOptionPane.showMessageDialog(null, msg, "Resultado", JOptionPane.INFORMATION_MESSAGE + JOptionPane.OK_OPTION);				
+			// cancela jogadas restantes
+			desativaJogo();
+		} else {
+			// trocar o jogador
+			turno = ((turno + 1) % 2);
+		}
+
 	}
 
-	public boolean checarVitoria() {
-		boolean vitoria;
+	public boolean checarVitoria(String jogador) {
+		// LINHAS
+		// 1ª linha
+		terminado = botao[0].getText() == jogador && botao[1].getText() == jogador && botao[2].getText() == jogador;
+		// 2ª linha
+		terminado = terminado || (botao[3].getText() == jogador && botao[4].getText() == jogador && botao[5].getText() == jogador);
+		// 3º linha
+		terminado = terminado || (botao[6].getText() == jogador && botao[7].getText() == jogador && botao[8].getText() == jogador);
 
-		// LINHAS
-		// 1ª linha
-		vitoria = botao[0].getText() == "O" && botao[1].getText() == "O"
-				&& botao[2].getText() == "O";
-		// 2ª linha
-		vitoria = vitoria || botao[3].getText() == "O" && botao[4].getText() == "O"
-				&& botao[5].getText() == "O";
-		// 3º linha
-		vitoria = vitoria || botao[6].getText() == "O" && botao[7].getText() == "O"
-				&& botao[8].getText() == "O";
 		// COLUNAS
 		// 1ª coluna
-		vitoria = vitoria || botao[0].getText() == "O" && botao[3].getText() == "O"
-				&& botao[6].getText() == "O";
+		terminado = terminado || (botao[0].getText() == jogador && botao[3].getText() == jogador && botao[6].getText() == jogador);
 		// 2ª coluna
-		vitoria = vitoria || botao[1].getText() == "O" && botao[4].getText() == "O"
-				&& botao[7].getText() == "O";
+		terminado = terminado || (botao[1].getText() == jogador && botao[4].getText() == jogador && botao[7].getText() == jogador);
 		// 3ª coluna
-		vitoria = vitoria || botao[2].getText() == "O" && botao[5].getText() == "O"
-				&& botao[8].getText() == "O";
+		terminado = terminado || (botao[2].getText() == jogador && botao[5].getText() == jogador && botao[8].getText() == jogador);
 		// DIAGONAIS
 		// 1ª diagonal
-		vitoria = vitoria || botao[0].getText() == "O" && botao[4].getText() == "O"
-				&& botao[8].getText() == "O";
+		terminado = terminado || (botao[0].getText() == jogador && botao[4].getText() == jogador && botao[8].getText() == jogador);
 		// 2ª diagonal
-		vitoria = vitoria || botao[2].getText() == "O" && botao[4].getText() == "O"
-				&& botao[6].getText() == "O";
-		
-		// LINHAS
+		terminado = terminado || (botao[2].getText() == jogador && botao[4].getText() == jogador && botao[6].getText() == jogador);
+
+/*		// LINHAS
 		// 1ª linha
-		vitoria = vitoria || botao[0].getText() == "X" && botao[1].getText() == "X"
-				&& botao[2].getText() == "X";
+		terminado = terminado || (botao[0].getText() == "X" && botao[1].getText() == "X" && botao[2].getText() == "X");
 		// 2ª linha
-		vitoria = vitoria || botao[3].getText() == "X" && botao[4].getText() == "X"
-				&& botao[5].getText() == "X";
+		terminado = terminado || (botao[3].getText() == "X" && botao[4].getText() == "X" && botao[5].getText() == "X");
 		// 3º linha
-		vitoria = vitoria || botao[6].getText() == "X" && botao[7].getText() == "X"
-				&& botao[8].getText() == "X";
+		terminado = terminado || (botao[6].getText() == "X" && botao[7].getText() == "X" && botao[8].getText() == "X");
+
 		// COLUNAS
 		// 1ª coluna
-		vitoria = vitoria || botao[0].getText() == "X" && botao[3].getText() == "X"
-				&& botao[6].getText() == "X";
+		terminado = terminado || (botao[0].getText() == "X" && botao[3].getText() == "X" && botao[6].getText() == "X");
 		// 2ª coluna
-		vitoria = vitoria || botao[1].getText() == "X" && botao[4].getText() == "X"
-				&& botao[7].getText() == "X";
+		terminado = terminado || (botao[1].getText() == "X" && botao[4].getText() == "X" && botao[7].getText() == "X");
 		// 3ª coluna
-		vitoria = vitoria || botao[2].getText() == "X" && botao[5].getText() == "X"
-				&& botao[8].getText() == "X";
+		terminado = terminado || (botao[2].getText() == "X" && botao[5].getText() == "X" && botao[8].getText() == "X");
 		// DIAGONAIS
 		// 1ª diagonal
-		vitoria = vitoria || botao[0].getText() == "X" && botao[4].getText() == "X"
-				&& botao[8].getText() == "X";
+		terminado = terminado || (botao[0].getText() == "X" && botao[4].getText() == "X" && botao[8].getText() == "X");
 		// 2ª diagonal
-		vitoria = vitoria || botao[2].getText() == "X" && botao[4].getText() == "X"
-				&& botao[6].getText() == "X";
-		return vitoria;
+		terminado = terminado || (botao[2].getText() == "X" && botao[4].getText() == "X" && botao[6].getText() == "X"); */
+		return terminado;
 	} // final do metodo checharVitoria
 
-	public static void main(String[] args) {
-		new JogoVelha();
-	} // método mains
+	// desativa novas jogadas
+	public void desativaJogo() {
+		// coloca false para as nove posições de jogo
+		for (int i = 0; i < 9; i++) {
+			click[i] = true;
+		}
+	} // final no metodo desativa jogo
+
 } // classe
