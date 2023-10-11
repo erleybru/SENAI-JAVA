@@ -1,0 +1,21 @@
+Sub ImportCSVFile()
+
+Dim wrkSheet As Worksheet, mrfFile As String
+
+' Define a planilha que ira recebe os dados do CSV
+' O nome usado foi DADOS, então coloque o nome da sua planilha
+Set wrkSheet = ActiveWorkbook.Sheets("DADOS")
+
+' Abre Dialog para selecionar o arquivo CSV ou TXT
+mrfFile = Application.GetOpenFilename("Text Files (*.csv),*.csv", , "Selecione o arquivo CSV ou TXT:")
+
+' Realiza a importação colocando os dados na celula A1 em diante. Mude se quiser
+With wrkSheet.QueryTables.Add(Connection:="TEXT;" & mrfFile, Destination:=wrkSheet.Range("A1"))
+.TextFileParseType = xlDelimited ' Campos delimitados
+.TextFileCommaDelimiter = False ' Virgula
+.TextFileSemicolonDelimiter = True ' Ponto e virgula
+.AdjustColumnWidth = True ' Ajusta o tamanho da coluna para o valor recebido
+.Refresh
+End With
+
+End Sub
