@@ -26,9 +26,10 @@ public class CalculoIMC {
 		if(imc >= 18.5 && imc <= 24.99) {
 			JOptionPane.showMessageDialog(null, "Peso Normal");
 		}
+		
 //		Entre 25 e 29,99	Acima do peso
-		if(imc >= 25 && imc <= 29,99) {
-			JOptionPane.showMessageDialog(null, "Acima do peso")
+		if(imc >= 25 && imc <= 29.99) {
+			JOptionPane.showMessageDialog(null, "Acima do peso");
 		}
 		
 	} // final do método main
