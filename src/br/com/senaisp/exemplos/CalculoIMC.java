@@ -22,14 +22,20 @@ public class CalculoIMC {
 		// mostrar resultado
 		JOptionPane.showMessageDialog(null, "IMC = " + imc);
 		
-//		Entre 18,5 e 24,99	Peso normal
-		if(imc >= 18.5 && imc <= 24.99) {
-			JOptionPane.showMessageDialog(null, "Peso Normal");
-		}
-		
-//		Entre 25 e 29,99	Acima do peso
-		if(imc >= 25 && imc <= 29.99) {
-			JOptionPane.showMessageDialog(null, "Acima do peso");
+		if(imc < 18.5) {
+			JOptionPane.showMessageDialog(null, "Você é magro pra caramba");
+		} else {
+			//		Entre 18,5 e 24,99	Peso normal
+			if(imc >= 18.5 && imc <= 24.99) {
+				JOptionPane.showMessageDialog(null, "Peso Normal");
+			} else {
+				//		Entre 25 e 29,99	Acima do peso
+				if(imc >= 25 && imc <= 29.99) {
+					JOptionPane.showMessageDialog(null, "Acima do peso");
+				} else {
+					JOptionPane.showMessageDialog(null, "Obsidade");
+				}
+			}
 		}
 		
 	} // final do método main
